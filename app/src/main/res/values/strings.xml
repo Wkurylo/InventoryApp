@@ -1,0 +1,121 @@
+<resources>
+
+	<!-- Name for the application [CHAR LIMIT=12] -->
+	<string name="app_name">Inventory App</string>
+
+	<!-- Title text for the empty view, which describes the empty store house [CHAR LIMIT=50] -->
+	<string name="empty_view_title_text">Your drone store-house is empty !</string>
+
+	<!-- Subtitle text for the empty view that prompts the user to add a item [CHAR LIMIT=50] -->
+	<string name="empty_view_subtitle_text">Get started by adding items</string>
+
+	<!-- Title text [CHAR LIMIT=12] -->
+	<string name="product_name">Product: </string>
+
+	<!-- Subtitle text [CHAR LIMIT=16] -->
+	<string name="product_quantity">In stock: </string>
+
+	<!-- Subtitle text [CHAR LIMIT=16] -->
+	<string name="product_price">Price: $</string>
+
+	<!-- text for button in ListView to reduce by 1 the quantity CHAR LIMIT=16] -->
+	<string name="button_sale">Sale</string>
+
+	<!-- text when in database is no value [CHAR LIMIT=16] -->
+	<string name="empty">0</string>
+
+	<!-- Label for overview category of attributes in the editor [CHAR LIMIT=30] -->
+	<string name="category_overview">Overview</string>
+
+	<!-- Label for quantity information in the editor [CHAR LIMIT=30] -->
+	<string name="category_quantity">Quantity</string>
+
+	<!-- Label for price information in the editor [CHAR LIMIT=30] -->
+	<string name="category_price">Price</string>
+
+	<!-- Text hint for name field in the editor [CHAR LIMIT=30] -->
+	<string name="hint_name">Name</string>
+
+	<!-- Text hint for email field in the editor [CHAR LIMIT=30] -->
+	<string name="hint_email">email to supplier</string>
+
+	<!-- Text hint for price field in the editor [CHAR LIMIT=30] -->
+	<string name="hint_price">Price</string>
+
+	<!-- Units for currency [CHAR LIMIT=5] -->
+	<string name="currency">USD</string>
+
+	<!-- text for button to order more - with explicit intent to email app CHAR LIMIT=16] -->
+	<string name="button_order">Order</string>
+
+	<!-- Menu button to save inserted data [CHAR LIMIT=5] -->
+	<string name="save">Save</string>
+
+	<!-- Menu button to delete current row from database CHAR LIMIT=16] -->
+	<string name="delete">delete</string>
+
+	<!-- Dialog message to choose the image source [CHAR LIMIT=NONE] -->
+	<string name="image_resource">How to upload the image ?</string>
+
+	<!-- Dialog button text for the option to add via camera [CHAR LIMIT=20] -->
+	<string name="camera">Camera</string>
+
+	<!-- Dialog button text for the option to add from device [CHAR LIMIT=20] -->
+	<string name="device">Memory</string>
+
+	<!-- Toast message in editor when new Item has been successfully inserted [CHAR LIMIT=NONE] -->
+	<string name="editor_insert_pet_successful">Item saved with ID: </string>
+
+	<!-- Toast message in editor when new Item has failed to be inserted [CHAR LIMIT=NONE] -->
+	<string name="editor_insert_pet_failed">Error with saving item</string>
+
+	<!-- Toast message in editor when new Item has failed to be inserted [CHAR LIMIT=NONE] -->
+	<string name="edit_item">Edit Item</string>
+
+	<!-- Toast message in editor when new Item has failed to be inserted [CHAR LIMIT=NONE] -->
+	<string name="add_item">Add Item</string>
+
+	<!-- Toast message in editor when new Item has failed to be inserted [CHAR LIMIT=NONE] -->
+	<string name="email_body">Hey !\n Could You supply me with extra 10 pcs of product in subject? \n best regards \n Drone Store Team</string>
+
+	<!-- Dialog message to confirm[CHAR LIMIT=NONE] -->
+	<string name="delete_all">Do You want to delete all data in Table ?</string>
+
+	<!-- Dialog button text for the option to delete [CHAR LIMIT=20] -->
+	<string name="yes">YES</string>
+
+	<!-- Dialog button text for the option to dismiss [CHAR LIMIT=20] -->
+	<string name="cancel">CANCEL</string>
+
+	<!-- Dialog message to confirm[CHAR LIMIT=NONE] -->
+	<string name="delete_row">Do You want to delete this entry ?</string>
+
+	<!-- Dialog message to confirm[CHAR LIMIT=NONE] -->
+	<string name="confirm_exit">Discard changes ?</string>
+
+	<!-- Toast message, displayed while leaving without saving -->
+	<string name="without_saving">Left without saving</string>
+
+	<!-- Toast message -->
+	<string name="max_value">150 is max for single item</string>
+
+	<!-- Toast message -->
+	<string name="min_value">Value below 0 is not accepted</string>
+
+	<!-- Toast message -->
+	<string name="problem_delete">Problem with deleting the entry</string>
+
+	<!-- Toast message -->
+	<string name="row_deleted">Row deleted</string>
+
+	<!-- Toast message -->
+	<string name="upss">Upss.. Something went wrong</string>
+
+	<!-- Toast message -->
+	<string name="row_updated">Rows updated: </string>
+
+	<!-- Toast message -->
+	<string name="image_not_selected">You have not picked Image</string>
+
+
+</resources>

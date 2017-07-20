@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+			xmlns:app="http://schemas.android.com/apk/res-auto"
+			xmlns:tools="http://schemas.android.com/tools"
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			tools:context="com.example.wojtekkurylo.inventoryapp.DetailActivity">
+
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:orientation="vertical">
+
+		<ImageView
+			android:id="@+id/image_detail"
+			android:layout_width="150dp"
+			android:layout_height="150dp"
+			android:layout_gravity="center"
+			android:layout_marginTop="@dimen/activity_margin"
+			android:src="@drawable/add_image"/>
+
+		<!-- Overview category -->
+		<LinearLayout
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:orientation="horizontal">
+
+			<!-- Label -->
+			<TextView
+				style="@style/CategoryStyle"
+				android:text="@string/category_overview"/>
+
+			<!-- Input fields -->
+			<LinearLayout
+				android:layout_width="0dp"
+				android:layout_height="wrap_content"
+				android:layout_weight="2"
+				android:orientation="vertical"
+				android:paddingLeft="4dp">
+
+				<!-- Name field -->
+				<EditText
+					android:id="@+id/product_name"
+					style="@style/EditorFieldStyle"
+					android:hint="@string/hint_name"
+					android:inputType="textCapWords"/>
+
+				<!-- manufacturer field -->
+				<EditText
+					android:id="@+id/product_manufacturer_email"
+					style="@style/EditorFieldStyle"
+					android:hint="@string/hint_email"
+					android:inputType="textEmailAddress"/>
+
+			</LinearLayout>
+		</LinearLayout>
+
+		<!-- Quantity category -->
+		<LinearLayout
+			android:id="@+id/container_quantity"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:orientation="horizontal">
+
+			<!-- Label -->
+			<TextView
+				style="@style/CategoryStyle"
+				android:text="@string/category_quantity"/>
+
+			<!-- Input field -->
+			<LinearLayout
+				android:layout_width="0dp"
+				android:layout_height="wrap_content"
+				android:layout_weight="2"
+				android:orientation="horizontal">
+
+				<Button
+					android:id="@+id/minus_one"
+					android:layout_width="50dp"
+					android:layout_height="50dp"
+					android:layout_gravity="center"
+					android:text="-"/>
+
+				<EditText
+					android:id="@+id/quantity_value"
+					android:layout_width="50dp"
+					android:layout_height="50dp"
+					android:gravity="center"
+					android:inputType="number"
+					android:textColor="@color/black"
+					android:textSize="18sp"
+					android:textStyle="bold"
+					tools:text="34"/>
+
+				<Button
+					android:id="@+id/plus_one"
+					android:layout_width="50dp"
+					android:layout_height="50dp"
+					android:layout_gravity="center"
+					android:text="+"/>
+
+			</LinearLayout>
+		</LinearLayout>
+
+		<!-- Price category -->
+		<LinearLayout
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:orientation="horizontal">
+
+			<!-- Label -->
+			<TextView
+				style="@style/CategoryStyle"
+				android:text="@string/category_price"/>
+
+			<!-- Input fields -->
+			<RelativeLayout
+				android:layout_width="0dp"
+				android:layout_height="wrap_content"
+				android:layout_weight="2"
+				android:paddingLeft="4dp">
+
+				<!-- Weight field -->
+				<EditText
+					android:id="@+id/product_price"
+					style="@style/EditorFieldStyle"
+					android:hint="@string/hint_price"
+					android:inputType="number"/>
+
+				<!-- Units for weight (kg) -->
+				<TextView
+					style="@style/EditorUnitsStyle"
+					android:text="@string/currency"/>
+			</RelativeLayout>
+		</LinearLayout>
+
+		<Button
+			android:id="@+id/order_button"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_gravity="center"
+			android:layout_marginTop="@dimen/order_button"
+			android:background="@drawable/button_sale"
+			android:text="@string/button_order"/>
+
+	</LinearLayout>
+
+</ScrollView>
