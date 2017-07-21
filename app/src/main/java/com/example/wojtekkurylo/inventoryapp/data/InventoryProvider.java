@@ -121,12 +121,18 @@ public class InventoryProvider extends ContentProvider {
 
 		// Data Validation
 		// Take the value imputed by user && check it
-		byte [] arrayCheck = values.getAsByteArray(InventoryEntry.PRODUCT_IMAGE);
-		if(arrayCheck == null){
-			Toast.makeText(getContext(), "Item requires a image", Toast.LENGTH_SHORT).show();
-			// The method will return int = 0;
-			return null;
-		}
+
+		/**
+		 * Method to Validate Image is redundant because whille user donnot select the image
+		 * The method in DetailActivity will add default image from app memory
+		 *
+		 */
+//		byte [] arrayCheck = values.getAsByteArray(InventoryEntry.PRODUCT_IMAGE);
+//		if(arrayCheck == null){
+//			Toast.makeText(getContext(), "Item requires a image", Toast.LENGTH_SHORT).show();
+//			// The method will return int = 0;
+//			return null;
+//		}
 
 		// Take the value imputed by user && check it
 		String nameCheck = values.getAsString(InventoryEntry.PRODUCT_NAME);
@@ -153,15 +159,6 @@ public class InventoryProvider extends ContentProvider {
 			// The method will return Uri = null;
 			return null;
 		}
-
-
-//		if (values.containsKey(InventoryEntry.PRODUCT_QUANTITY)) {
-//			if (quantityCheck.equals(checkValue)) {
-//				Toast.makeText(getContext(), "Item requires quantity value", Toast.LENGTH_SHORT).show();
-//				// The method will return Uri = null;
-//				return null;
-//			}
-//		}
 
 		// Create and/or open a database to read from it
 		SQLiteDatabase db = mInventoryDBHelper.getWritableDatabase();

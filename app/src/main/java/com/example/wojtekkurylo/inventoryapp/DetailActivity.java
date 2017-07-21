@@ -8,9 +8,12 @@ import android.content.CursorLoader;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.Loader;
+import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.v4.app.NavUtils;
@@ -85,6 +88,11 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
 	 * Image stored in byte[] array
 	 */
 	private byte[] mCameraInput = null;
+
+	/**
+	 * Image stored in byte[] array
+	 */
+	private byte[] mDefaultInput = null;
 
 	/**
 	 * Image stored in byte[] array
@@ -332,6 +340,12 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
 			ByteArrayOutputStream stream = new ByteArrayOutputStream();
 			mCameraBitmap.compress(Bitmap.CompressFormat.PNG, 0, stream);
 			mCameraInput = stream.toByteArray();
+		} else{
+			// Add custom image from app memory and save it as byte[] array
+			Bitmap bitmap = BitmapFactory.decodeResource(getResources(),R.drawable.add_image);
+			ByteArrayOutputStream stream = new ByteArrayOutputStream();
+			bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+			mDefaultInput = stream.toByteArray();
 		}
 
 		String productName = mProductName.getText().toString().toLowerCase().trim();
@@ -364,8 +378,7 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
 			} else if (mGalleryInput != null) {
 				contentValues.put(InventoryEntry.PRODUCT_IMAGE, mGalleryInput);
 			} else {
-				byte[] emptyArray = null;
-				contentValues.put(InventoryEntry.PRODUCT_IMAGE, emptyArray);
+				contentValues.put(InventoryEntry.PRODUCT_IMAGE, mDefaultInput);
 			}
 
 			contentValues.put(InventoryEntry.SUPPLIER_EMAIL, productEmail);
@@ -448,16 +461,12 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
 			public void onClick(DialogInterface dialog, int id) {
 				// Intent to make the photo by camera
 				takePhotoByCameraIntent();
-				// close the dialog.
-				dialog.dismiss();
 			}
 		});
 		builder.setNegativeButton(R.string.device, new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int id) {
 				// Intent to selec photo from gallery
 				selectImageFromGalleryIntent();
-				// close the dialog.
-				dialog.dismiss();
 			}
 		});
 		// Create and show the AlertDialog
@@ -615,18 +624,16 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
 			public void onClick(DialogInterface dialog, int id) {
 				// Intent to delete all table
 				deleteSingleItem();
-				// close the dialog.
-				dialog.dismiss();
 				// finish this activity & go back to previous
 				finish();
 			}
 		});
-		builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-			public void onClick(DialogInterface dialog, int id) {
-				// close the dialog.
-				dialog.dismiss();
-			}
-		});
+		// Any button will dismiss the popup dialog by default,
+		// so you don't have to add dialog.dismiss explicitly.
+		// If this is the only thing you would like to do, then you can
+		// replace the whole OnClickListener with a null, like so:
+		//setNegativeButton("Cancel", null);
+		builder.setNegativeButton(R.string.cancel,null);
 		// Create and show the AlertDialog
 		AlertDialog alertDialog = builder.create();
 		alertDialog.show();

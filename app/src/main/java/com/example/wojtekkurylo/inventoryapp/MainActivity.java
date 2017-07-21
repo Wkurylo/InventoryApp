@@ -238,16 +238,14 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 			public void onClick(DialogInterface dialog, int id) {
 				// Intent to delete all table
 				deleteAll();
-				// close the dialog.
-				dialog.dismiss();
 			}
 		});
-		builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-			public void onClick(DialogInterface dialog, int id) {
-				// close the dialog.
-				dialog.dismiss();
-			}
-		});
+		// Any button will dismiss the popup dialog by default,
+		// so you don't have to add dialog.dismiss explicitly.
+		// If this is the only thing you would like to do, then you can
+		// replace the whole OnClickListener with a null, like so:
+		//setNegativeButton("Cancel", null);
+		builder.setNegativeButton(R.string.cancel,null);
 		// Create and show the AlertDialog
 		AlertDialog alertDialog = builder.create();
 		alertDialog.show();

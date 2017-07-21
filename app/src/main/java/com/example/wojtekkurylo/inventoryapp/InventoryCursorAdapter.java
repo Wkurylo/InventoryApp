@@ -8,6 +8,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.support.v4.widget.CursorAdapter;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -37,18 +38,41 @@ public class InventoryCursorAdapter extends CursorAdapter {
 
 	@Override
 	public View newView(Context context, Cursor cursor, ViewGroup parent) {
-		return LayoutInflater.from(context).inflate(R.layout.list_item, parent, false);
+		// create a new instance of a `ViewHolder`
+		ViewHolder viewHolder;
+
+		View newView = LayoutInflater.from(context).inflate(R.layout.list_item, parent, false);
+
+		viewHolder = new ViewHolder(newView);
+		// assign ViewHolder object to a newView, which we can retrieve later
+		newView.setTag(viewHolder);
+
+		return newView;
+	}
+
+	class ViewHolder{
+		private ImageView imageView;
+		private TextView nameView;
+		private TextView quantityView;
+		private TextView priceView;
+		private Button saleButton;
+
+		public ViewHolder(View view){
+			this.imageView = (ImageView) view.findViewById(R.id.image);
+			this.nameView = (TextView) view.findViewById(R.id.name);
+			this.quantityView = (TextView) view.findViewById(R.id.quantity);
+			this.priceView = (TextView) view.findViewById(R.id.price);
+			this.saleButton = (Button) view.findViewById(R.id.sale_button);
+		}
 	}
 
 	@Override
 	public void bindView(View view, final Context context, Cursor cursor) {
 
-		// Find and cast the View's (API 25) - casting required :)
-		ImageView imageView = (ImageView) view.findViewById(R.id.image);
-		TextView nameView = (TextView) view.findViewById(R.id.name);
-		TextView quantityView = (TextView) view.findViewById(R.id.quantity);
-		TextView priceView = (TextView) view.findViewById(R.id.price);
-		Button saleButton = (Button) view.findViewById(R.id.sale_button);
+		//create a new instance of a `ViewHolder`
+		ViewHolder viewHolder;
+		// read the tag from returned newView View and cast it to the class.
+		viewHolder = (ViewHolder) view.getTag();
 
 		// Taking the column ID
 		int imageColumnIndex = cursor.getColumnIndexOrThrow(InventoryEntry.PRODUCT_IMAGE);
@@ -69,23 +93,23 @@ public class InventoryCursorAdapter extends CursorAdapter {
 			Bitmap bmp = BitmapFactory.decodeByteArray(imageInput, 0, imageInput.length);
 
 			// Setting the value from cursor to the list_item.xml
-			imageView.setImageBitmap(bmp);
+			viewHolder.imageView.setImageBitmap(bmp);
 		}
-//		else {
-//			// If there was no photo added, add default
-//			imageView.setImageResource(R.drawable.add_image);
-//		}
+		else {
+			// If there was no photo added, add default
+			viewHolder.imageView.setImageResource(R.drawable.add_image);
+		}
 
-		nameView.setText(nameInput);
-		quantityView.setText(quantityListItem);
-		priceView.setText(priceInput);
+		viewHolder.nameView.setText(nameInput);
+		viewHolder.quantityView.setText(quantityListItem);
+		viewHolder.priceView.setText(priceInput);
 
 		//get row id
 		final int rowID = cursor.getInt(cursor.getColumnIndex(InventoryEntry._ID));
 		Log.e("ICA", "row ID: " + rowID);
 
 		// Reduce the quantity by 1 , do not go below 0;
-		saleButton.setOnClickListener(new View.OnClickListener() {
+		viewHolder.saleButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				Uri uriSelectedId = ContentUris.withAppendedId(InventoryEntry.CONTENT_URI, rowID);
@@ -106,7 +130,6 @@ public class InventoryCursorAdapter extends CursorAdapter {
 
 			int updatedQuantityInt = quantityInt - 1;
 
-			//mQuantityListItem = (String.valueOf(productQuantityBeforeRemoveInt));
 			// Create a ContentValues with value, where columns names are the keys;
 			ContentValues updatesValues = new ContentValues();
 			String updatedQuantityString = String.valueOf(updatedQuantityInt);
