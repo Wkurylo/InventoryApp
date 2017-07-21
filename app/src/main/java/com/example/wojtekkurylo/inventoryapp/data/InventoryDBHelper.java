@@ -47,12 +47,6 @@ public class InventoryDBHelper extends SQLiteOpenHelper {
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 		// Upgrade if new version available :
-
-		switch (oldVersion) {
-			case 1:
-				db.execSQL(SQL_CREATE_ENTRIES);
-		}
-
-
+		db.execSQL(SQL_CREATE_ENTRIES);
 	}
 }

@@ -13,8 +13,7 @@
 		android:layout_height="match_parent"
 		android:dividerHeight="3dp"
 		android:drawSelectorOnTop="true"
-		android:orientation="vertical">
-	</ListView>
+		android:orientation="vertical"/>
 
 	<RelativeLayout
 		android:id="@+id/empty_view"

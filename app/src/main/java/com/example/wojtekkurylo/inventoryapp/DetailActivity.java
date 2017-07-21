@@ -270,8 +270,6 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
 			case R.id.action_save:
 				// Save the user entry
 				saveItem();
-				// finish this activity & go back to previous
-				finish();
 				return true;
 			// Respond to a click on the "Delete" menu option
 			case R.id.action_delete:
@@ -339,18 +337,19 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
 		String productName = mProductName.getText().toString().toLowerCase().trim();
 		String productEmail = mSupplierEmail.getText().toString().toLowerCase().trim();
 		String productQuantity = mQuantity.getText().toString().toLowerCase().trim();
-		String check = "";
-		if (productQuantity.equals(check)) {
-			productQuantity = "0";
+		if (productQuantity.equals("")) {
+			productQuantity = "-1";
 		}
-		int productQuantityInt = Integer.parseInt(productQuantity);
 
+		//Change from String to Integer Object
+		Integer productQuantityInt = Integer.parseInt(productQuantity);
 
 		String productPrice = mPrice.getText().toString().toLowerCase().trim();
-		if (productPrice.equals(check)) {
-			productPrice = "0";
+		if (productPrice.equals("")) {
+			productPrice = "-1";
 		}
-		int productPriceInt = Integer.parseInt(productPrice);
+		//Change from String to Integer Object
+		Integer productPriceInt = Integer.parseInt(productPrice);
 
 		/**
 		 * If mUriSelectedWithId do not has value, means User entered the ADD MODE
@@ -360,10 +359,13 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
 			// Create a ContentValues object where column names are the keys,
 			// and pet attributes from the editor are the values.
 			ContentValues contentValues = new ContentValues();
-			if (mCameraInput == null) {
-				contentValues.put(InventoryEntry.PRODUCT_IMAGE, mGalleryInput);
-			} else if (mGalleryInput == null) {
+			if (mCameraInput != null) {
 				contentValues.put(InventoryEntry.PRODUCT_IMAGE, mCameraInput);
+			} else if (mGalleryInput != null) {
+				contentValues.put(InventoryEntry.PRODUCT_IMAGE, mGalleryInput);
+			} else {
+				byte[] emptyArray = null;
+				contentValues.put(InventoryEntry.PRODUCT_IMAGE, emptyArray);
 			}
 
 			contentValues.put(InventoryEntry.SUPPLIER_EMAIL, productEmail);
@@ -386,6 +388,8 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
 				// Otherwise, the insertion was successful and we can display a toast.
 				Toast.makeText(this, getString(R.string.editor_insert_pet_successful) + parseID,
 						Toast.LENGTH_SHORT).show();
+				// Succesfully inserted data so we can: finish this activity & go back to previous
+				finish();
 			}
 			/**
 			 * If mUriSelectedWithId DO has value, means User entered the EDIT MODE
@@ -395,10 +399,13 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
 
 			// Create a ContentValues with value, where columns names are the keys;
 			ContentValues updatesValues = new ContentValues();
-			if (mCameraInput == null) {
-				updatesValues.put(InventoryEntry.PRODUCT_IMAGE, mGalleryInput);
-			} else if (mGalleryInput == null) {
+			if (mCameraInput != null) {
 				updatesValues.put(InventoryEntry.PRODUCT_IMAGE, mCameraInput);
+			} else if (mGalleryInput != null) {
+				updatesValues.put(InventoryEntry.PRODUCT_IMAGE, mGalleryInput);
+			} else {
+				byte[] existingArray = checkIfExist();
+				updatesValues.put(InventoryEntry.PRODUCT_IMAGE, existingArray);
 			}
 			updatesValues.put(InventoryEntry.SUPPLIER_EMAIL, productEmail);
 			updatesValues.put(InventoryEntry.PRODUCT_NAME, productName);
@@ -421,6 +428,8 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
 			} else {
 				// Otherwise, the insertion was successful and we can display a toast.
 				Toast.makeText(this, "Rows updated: " + rowsUpdated, Toast.LENGTH_SHORT).show();
+				// Succesfully updated data so we can: finish this activity & go back to previous
+				finish();
 			}
 
 		}
@@ -661,5 +670,30 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
 		AlertDialog alertDialog = builder.create();
 		alertDialog.show();
 
+	}
+
+	// returning byte[] array of existing image
+	// Available : EDIT mode
+	private byte[] checkIfExist() {
+
+		// The columns of choice
+		String[] projection = {
+				InventoryEntry._ID,
+				InventoryEntry.PRODUCT_IMAGE,
+		};
+
+		Cursor cursor = getContentResolver().query(mUriSelectedWithId, projection, null, null, null);
+
+		// Cursor returns the columns header and the row of interest
+		// I am interested in row below column headers
+		int position = cursor.getPosition();
+		Log.e("Detail Activity", "Original cursor position: " + position);
+		// move the cursor to the row with data
+		cursor.moveToNext();
+		int positionSecond = cursor.getPosition();
+		Log.e("Detail Activity", "Cursor after movement in position: " + positionSecond);
+		// return the byte array of existing image
+		byte[] byteArrayCheck = cursor.getBlob(cursor.getColumnIndexOrThrow(InventoryEntry.PRODUCT_IMAGE));
+		return byteArrayCheck;
 	}
 }

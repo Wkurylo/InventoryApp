@@ -12,6 +12,8 @@ import android.widget.Toast;
 
 import com.example.wojtekkurylo.inventoryapp.data.InventoryContract.InventoryEntry;
 
+import static android.R.attr.value;
+
 
 /**
  * Created by wojtekkurylo on 19.07.2017.
@@ -118,45 +120,48 @@ public class InventoryProvider extends ContentProvider {
 	public Uri insert(Uri uri, ContentValues values) {
 
 		// Data Validation
+		// Take the value imputed by user && check it
+		byte [] arrayCheck = values.getAsByteArray(InventoryEntry.PRODUCT_IMAGE);
+		if(arrayCheck == null){
+			Toast.makeText(getContext(), "Item requires a image", Toast.LENGTH_SHORT).show();
+			// The method will return int = 0;
+			return null;
+		}
+
+		// Take the value imputed by user && check it
 		String nameCheck = values.getAsString(InventoryEntry.PRODUCT_NAME);
+		if (nameCheck.equals("")) {
+			Toast.makeText(getContext(), "Item requires a name", Toast.LENGTH_SHORT).show();
+			// The method will return Uri = null;
+			return null;
+		}
 		String emailCheck = values.getAsString(InventoryEntry.SUPPLIER_EMAIL);
-		int quantityCheck = values.getAsInteger(InventoryEntry.PRODUCT_QUANTITY);
-		int priceCheck = values.getAsInteger(InventoryEntry.PRODUCT_PRICE);
-
-		// check that the name value is not null.
-		if (values.containsKey(InventoryEntry.PRODUCT_NAME)) {
-			if (nameCheck.equals("")) {
-				Toast.makeText(getContext(), "Item requires a name", Toast.LENGTH_SHORT).show();
-				// The method will return Uri = null;
-				return null;
-			}
+		if (emailCheck.equals("")) {
+			Toast.makeText(getContext(), "Item requires email to supplier", Toast.LENGTH_SHORT).show();
+			// The method will return Uri = null;
+			return null;
+		}
+		Integer quantityCheck = values.getAsInteger(InventoryEntry.PRODUCT_QUANTITY);
+		if (quantityCheck == 0 || quantityCheck == -1) {
+			Toast.makeText(getContext(), "Item requires quantity value > 0", Toast.LENGTH_SHORT).show();
+			// The method will return Uri = null;
+			return null;
+		}
+		Integer priceCheck = values.getAsInteger(InventoryEntry.PRODUCT_PRICE);
+		if (priceCheck == -1) {
+			Toast.makeText(getContext(), "Item requires price value", Toast.LENGTH_SHORT).show();
+			// The method will return Uri = null;
+			return null;
 		}
 
-		if (values.containsKey(InventoryEntry.SUPPLIER_EMAIL)) {
-			if (emailCheck.equals("")) {
-				Toast.makeText(getContext(), "Item requires email to supplier", Toast.LENGTH_SHORT).show();
-				// The method will return Uri = null;
-				return null;
-			}
-		}
 
-		if (values.containsKey(InventoryEntry.PRODUCT_QUANTITY)) {
-			String quantityCheckString = Integer.toString(quantityCheck);
-			if (quantityCheckString.equals("")) {
-				Toast.makeText(getContext(), "Item requires quantity value", Toast.LENGTH_SHORT).show();
-				// The method will return Uri = null;
-				return null;
-			}
-		}
-
-		if (values.containsKey(InventoryEntry.PRODUCT_PRICE)) {
-			String priceCheckString = Integer.toString(priceCheck);
-			if (priceCheckString.equals("")) {
-				Toast.makeText(getContext(), "Item requires price value", Toast.LENGTH_SHORT).show();
-				// The method will return Uri = null;
-				return null;
-			}
-		}
+//		if (values.containsKey(InventoryEntry.PRODUCT_QUANTITY)) {
+//			if (quantityCheck.equals(checkValue)) {
+//				Toast.makeText(getContext(), "Item requires quantity value", Toast.LENGTH_SHORT).show();
+//				// The method will return Uri = null;
+//				return null;
+//			}
+//		}
 
 		// Create and/or open a database to read from it
 		SQLiteDatabase db = mInventoryDBHelper.getWritableDatabase();
@@ -246,13 +251,20 @@ public class InventoryProvider extends ContentProvider {
 	public int update(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
 
 		// Data Validation
-		String nameCheck = values.getAsString(InventoryEntry.PRODUCT_NAME);
-		String emailCheck = values.getAsString(InventoryEntry.SUPPLIER_EMAIL);
-		int quantityCheck = values.getAsInteger(InventoryEntry.PRODUCT_QUANTITY);
-		int priceCheck = values.getAsInteger(InventoryEntry.PRODUCT_PRICE);
-
-		// check that the name value is not null.
+		// Returns true if this object has the Image value.
+		if(values.containsKey(InventoryEntry.PRODUCT_IMAGE)){
+			// If has value, take this value and check what is inside
+			byte [] arrayCheck = values.getAsByteArray(InventoryEntry.PRODUCT_IMAGE);
+			if(arrayCheck == null){
+				Toast.makeText(getContext(), "Item requires a image", Toast.LENGTH_SHORT).show();
+				// The method will return int = 0;
+				return 0;
+			}
+		}
+		// Returns true if this object has the named value.
 		if (values.containsKey(InventoryEntry.PRODUCT_NAME)) {
+			// If has value, take this value and check what is inside
+			String nameCheck = values.getAsString(InventoryEntry.PRODUCT_NAME);
 			if (nameCheck.equals("")) {
 				Toast.makeText(getContext(), "Item requires a name", Toast.LENGTH_SHORT).show();
 				// The method will return int = 0;
@@ -260,7 +272,10 @@ public class InventoryProvider extends ContentProvider {
 			}
 		}
 
+		// Returns true if this object has the email value.
 		if (values.containsKey(InventoryEntry.SUPPLIER_EMAIL)) {
+			// If has value, take this value and check what is inside
+			String emailCheck = values.getAsString(InventoryEntry.SUPPLIER_EMAIL);
 			if (emailCheck.equals("")) {
 				Toast.makeText(getContext(), "Item requires email to supplier", Toast.LENGTH_SHORT).show();
 				// The method will return int = 0;
@@ -268,18 +283,24 @@ public class InventoryProvider extends ContentProvider {
 			}
 		}
 
+		// Returns true if this object has the quantity value.
 		if (values.containsKey(InventoryEntry.PRODUCT_QUANTITY)) {
-			String quantityCheckString = Integer.toString(quantityCheck);
-			if (quantityCheckString.equals("")) {
+			// If has value, take this value and check what is inside
+			// Cast the int to Object - Integer
+			Integer quantityCheck = values.getAsInteger(InventoryEntry.PRODUCT_QUANTITY);
+			if (quantityCheck == null || quantityCheck < 0) {
 				Toast.makeText(getContext(), "Item requires quantity value", Toast.LENGTH_SHORT).show();
 				// The method will return int = 0;
 				return 0;
 			}
 		}
 
+		// Returns true if this object has the price value.
 		if (values.containsKey(InventoryEntry.PRODUCT_PRICE)) {
-			String priceCheckString = Integer.toString(priceCheck);
-			if (priceCheckString.equals("")) {
+			// If has value, take this value and check what is inside
+			// Cast the int to Object - Integer
+			Integer priceCheck = values.getAsInteger(InventoryEntry.PRODUCT_PRICE);
+			if (priceCheck == null || priceCheck < 0) {
 				Toast.makeText(getContext(), "Item requires price value", Toast.LENGTH_SHORT).show();
 				// The method will return int = 0;
 				return 0;

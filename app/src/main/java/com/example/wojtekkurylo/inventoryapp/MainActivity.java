@@ -132,7 +132,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 	@Override
 	protected void onStart() {
 		super.onStart();
-
 		getLoaderManager().restartLoader(URL_LOADER, null, this);
 	}
 

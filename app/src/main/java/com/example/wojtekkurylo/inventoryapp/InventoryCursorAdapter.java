@@ -70,10 +70,11 @@ public class InventoryCursorAdapter extends CursorAdapter {
 
 			// Setting the value from cursor to the list_item.xml
 			imageView.setImageBitmap(bmp);
-		} else {
-			// If there was no photo added, add default
-			imageView.setImageResource(R.drawable.add_image);
 		}
+//		else {
+//			// If there was no photo added, add default
+//			imageView.setImageResource(R.drawable.add_image);
+//		}
 
 		nameView.setText(nameInput);
 		quantityView.setText(quantityListItem);
