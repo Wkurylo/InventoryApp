@@ -27,9 +27,6 @@ public class InventoryDBHelper extends SQLiteOpenHelper {
 					InventoryEntry.PRODUCT_PRICE + " INTEGER DEFAULT 0," +
 					InventoryEntry.SUPPLIER_EMAIL + " TEXT);";
 
-	private static final String SQL_DELETE_ENTRIES =
-			"DROP TABLE IF EXISTS " + InventoryEntry.TABLE_NAME;
-
 	/**
 	 * Public Constructor
 	 *

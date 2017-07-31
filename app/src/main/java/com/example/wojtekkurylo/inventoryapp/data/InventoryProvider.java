@@ -12,9 +12,6 @@ import android.widget.Toast;
 
 import com.example.wojtekkurylo.inventoryapp.data.InventoryContract.InventoryEntry;
 
-import static android.R.attr.value;
-
-
 /**
  * Created by wojtekkurylo on 19.07.2017.
  */
